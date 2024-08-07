@@ -1,0 +1,210 @@
+---
+import markdownit from 'markdown-it';
+const md = markdownit({ html: true });
+interface Props {
+  video: {
+    source: string;
+    aria_label: string;
+    poster: string;
+  };
+  logo: {
+    src: string;
+    link: string;
+    aria_label: string;
+  };
+  text_color: string;
+  more_info: [];
+  buttons: [
+    {
+      _bookshop_name: string;
+      text: string;
+      icon: string;
+      link: string;
+      background_color?: string;
+      hover_brightness: number;
+      text_color: string;
+    },
+  ];
+}
+
+const block = Astro.props;
+const buttons = import.meta.glob('/src/components/buttons/**/*.astro', {
+  eager: true,
+});
+const moreInfoWidth = `${Math.round(100 / block.more_info.length)}%`;
+---
+
+<section class="video-wrapper">
+  <a href={block.logo.link} aria-label={block.logo.aria_label}>
+    <img
+      class="logo-heading"
+      src={block.logo.src}
+      alt={`${block.logo.aria_label} Logo`}
+      width="420"
+      height="34"
+      loading="lazy"
+      decoding="async"
+    />
+  </a>
+  <div class="video-footer-content">
+    <div class="more-info" style={`color: ${block.text_color};`}>
+      {
+        block.more_info.map((infoBlock: string) => {
+          const infoMarkdown = md.render(infoBlock);
+          return <div class="info-block" set:html={infoMarkdown} />;
+        })
+      }
+    </div>
+    <div class="video-buttons">
+      {
+        block.buttons.map((button: any) => {
+          const name = button._bookshop_name.split('/').reverse()[0];
+          const filePath = `/src/components/buttons/${name}/${name}.astro`;
+          const Component = (buttons[filePath] as any)?.default;
+          return <Component {...button} />;
+        })
+      }
+    </div>
+  </div>
+  <video
+    aria-label={block.video.aria_label}
+    muted=""
+    autoplay=""
+    loop=""
+    playsinline=""
+    class="video"
+    poster={block.video.poster}>
+    <source src={block.video.source} type="video/mp4" />
+  </video>
+</section>
+
+<style is:global>
+  .video-buttons button {
+    width: 100%;
+  }
+
+  @media only screen and (min-width: 960px) {
+    .video-buttons button {
+      width: max-content;
+    }
+  }
+</style>
+
+<style define:vars={{ moreInfoWidth }}>
+  .video-wrapper {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .video-wrapper a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    z-index: 99;
+  }
+  .video {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    transform-origin: top;
+    object-position: top;
+    object-fit: cover;
+  }
+  .video-footer-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    justify-content: end;
+    align-items: center;
+    padding-inline: var(--pagePadding);
+    max-width: var(--pageContainer);
+    padding-bottom: 2rem;
+  }
+  .logo-heading {
+    width: 100%;
+    display: flex;
+    justify-self: end;
+    align-self: end;
+    margin-bottom: 2rem;
+    padding-inline: var(--pagePadding);
+  }
+  .logo-heading,
+  .more-info {
+    position: relative;
+    z-index: 99;
+  }
+  .more-info {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 1rem;
+  }
+  .more-info div {
+    border-right: 1px solid white;
+    width: var(--moreInfoWidth);
+    padding-right: 2rem;
+    padding-left: 1rem;
+    max-width: 72ch;
+  }
+  .more-info div:last-child {
+    border-right: none;
+  }
+  .more-info div:first-child {
+    padding-left: 0;
+  }
+
+  .video-buttons {
+    display: flex;
+    position: relative;
+    z-index: 9;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 100%;
+    justify-content: end;
+    margin-top: 1rem;
+  }
+
+  @media only screen and (min-width: 400px) {
+    .video-buttons {
+      flex-direction: row;
+      margin-top: 2rem;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    .video-footer-content {
+      align-items: start;
+    }
+  }
+
+  @media only screen and (min-width: 960px) {
+    .more-info {
+      width: min-content;
+    }
+    .video-buttons {
+      justify-content: flex-start;
+    }
+  }
+  @media only screen and (min-width: 1280px) {
+    .video-buttons {
+      flex-direction: row;
+      justify-content: flex-end;
+    }
+    .video-footer-content {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: end;
+    }
+  }
+</style>

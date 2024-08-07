@@ -1,0 +1,49 @@
+# Metadata about this component, to be used in the CMS
+spec:
+  structures:
+    - content_blocks
+  label: Card Grid
+  description: Add cards to a grid section
+  icon: apps
+  tags:
+    - Grid
+    - Text
+    - Cards
+
+# Defines the structure of this component, as well as the default values
+blueprint:
+  heading:
+    heading_text: A heading
+    heading_color: '#000000'
+  background_color: '#fff0f4'
+  grid_columns: 3
+  cards_max_width: 26
+  button:
+    button_text:
+    background_color:
+    text_color:
+  cards: [bookshop:structure:cards]
+
+# Overrides any fields in the blueprint when viewing this component in the component browser
+preview:
+
+# Any extra CloudCannon inputs configuration to apply to the blueprint
+_inputs:
+  grid_columns:
+    comment: Sets the amount of columns in the grid.
+    type: range
+    options:
+      step: 1
+      max: 4
+      min: 2
+  cards_max_width:
+    comment: Sets the max width of a card in the grid.
+    type: range
+    options:
+      step: 1
+      max: 37
+      min: 5
+  cards[*]:
+    options:
+      preview:
+        icon: style

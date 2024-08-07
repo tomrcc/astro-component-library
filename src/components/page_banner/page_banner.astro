@@ -1,0 +1,44 @@
+---
+import Markdown from "../../utility/markdown.astro";
+
+interface Props {
+  text: string;
+  text_color: string;
+  background_color: string;
+}
+
+const block = Astro.props;
+---
+
+<div class="" style={`background-color: ${block.background_color};`}>
+  <section class="wrapper" id="contentful-psa-banner">
+    <div class="content" style={`color: ${block.text_color};`}>
+      <Markdown content={block.text} />
+    </div>
+  </section>
+
+  <style>
+    .wrapper {
+      max-width: var(--pageContainer);
+      padding-inline: var(--pagePadding);
+      margin: 0 auto;
+      padding-block: 20px;
+    }
+    .content {
+      color: #ffffff;
+      margin: 0px auto;
+      width: fit-content;
+    }
+    .link-helper {
+      color: #ffffff !important;
+      margin-left: 5px;
+      text-decoration: underline !important;
+      text-underline-offset: 4px;
+    }
+    .link-helper:hover {
+      text-decoration: underline;
+      color: #ffffff !important;
+      text-underline-offset: 4px;
+    }
+  </style>
+</div>

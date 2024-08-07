@@ -1,0 +1,52 @@
+# Metadata about this component, to be used in the CMS
+spec:
+  structures:
+    - content_blocks
+  label: Video
+  description: Video background with text
+  icon: 'duo'
+  tags:
+    - Video
+    - Text
+    - Buttons
+
+# Defines the structure of this component, as well as the default values
+blueprint:
+  video:
+    aria_label: Lucid Gravity, a luxury electric SUV, is being shown through fog from above.
+    source: /videos/homepage-gravity-desktop-LM23-0570_Q4_dotcom_videos_GravityLoop2_v11_1920x1080-handbrake.mp4
+    poster: /media/image/home/LM23-0570_Q4_dotcom_videos_GravityLoop2_v11_1920x1080.webp
+  logo:
+    src: /images/gravity.svg
+    link: /gravity/
+    aria_label: Gravity
+  text_color: '#FFFFFF'
+  more_info: []
+  buttons: [bookshop:structure:buttons]
+
+# Overrides any fields in the blueprint when viewing this component in the component browser
+preview:
+
+# Any extra CloudCannon inputs configuration to apply to the blueprint
+_inputs:
+  source:
+    type: file
+  poster:
+    type: image
+    comment: Used as a backup, and while the video loads.
+  video:
+    options:
+      preview:
+        icon: duo
+        text: Video
+        subtext:
+          - key: aria_label
+          - Update video source, aria label, and poster
+  logo:
+    options:
+      preview:
+        icon: image
+        text: Logo
+        subtext:
+          - key: aria_label
+          - Update image source, aria label, and link

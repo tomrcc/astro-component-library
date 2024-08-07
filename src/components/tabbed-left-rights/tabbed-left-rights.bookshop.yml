@@ -1,0 +1,117 @@
+# Metadata about this component, to be used in the CMS
+spec:
+  structures:
+    - content_blocks
+  label: Tabbed Left Rights
+  description: Text next to image with button
+  icon: 'chrome_reader_mode'
+  tags:
+    - Tabs
+    - Images
+    - Text
+
+# Defines the structure of this component, as well as the default values
+blueprint:
+  heading:
+  subheading:
+  background_color: '#000000'
+  text_color: '#FFFFFF'
+  tabs:
+    - tab_title: About Us
+      image:
+        image_path: /images/dealership-interior.webp
+        image_alt: Dealership lobby
+      title:
+        title_text: Technology that drives sustainability.
+        title_color: '#ffffff'
+      subtitle:
+        subtitle_text: >-
+          Our in-house developed technology, innovative design, and advanced
+          EV motors allow customers to go farther with fewer batteries.
+          Lighter, smaller battery packs mean Lucid vehicles use fewer
+          precious metals and minerals.
+        subtitle_color: '#7f7f7f'
+      cta:
+        cta_text: LEARN ABOUT LUCID
+        cta_link: /
+        cta_color: '#FFFFFF'
+    - tab_title: Sustainability
+      image:
+        image_path: /images/dealership-interior.webp
+        image_alt: Dealership lobby
+      title:
+        title_text: Sustainability.
+        title_color: '#ffffff'
+      subtitle:
+        subtitle_text: >-
+          Our in-house developed technology, innovative design, and advanced
+          EV motors allow customers to go farther with fewer batteries.
+          Lighter, smaller battery packs mean Lucid vehicles use fewer
+          precious metals and minerals.
+        subtitle_color: '#7f7f7f'
+      cta:
+        cta_text: LEARN ABOUT LUCID
+        cta_link: /
+        cta_color: '#FFFFFF'
+
+# Overrides any fields in the blueprint when viewing this component in the component browser
+preview:
+
+# Any extra CloudCannon inputs configuration to apply to the blueprint
+_inputs:
+  image:
+    options:
+      preview:
+        icon: image
+        image:
+          - key: image_path
+        text: Image
+        subtext:
+          - key: image_alt
+          - Update image
+  title_text:
+    type: textarea
+  subtitle_text:
+    type: textarea
+  heading:
+    type: markdown
+    options:
+      bold: true
+      italic: true
+      strike: true
+      subscript: true
+      superscript: true
+      underline: true
+      link: true
+      undo: true
+      redo: true
+      removeformat: true
+      copyformatting: true
+  subheading:
+    type: markdown
+    options:
+      bold: true
+      italic: true
+      strike: true
+      subscript: true
+      superscript: true
+      underline: true
+      link: true
+      undo: true
+      redo: true
+      removeformat: true
+      copyformatting: true
+  tabs:
+    type: array
+    structures: _structures.tab
+    comment: To work on a tab, drag it to the top of the tabs list, then drag it back into the correct order when done.
+  tabs[*]:
+    options:
+      preview:
+        icon: chrome_reader_mode
+        text:
+          - key: tab_title
+          - Tab
+        subtext:
+          - key: title
+          - Update tab contents

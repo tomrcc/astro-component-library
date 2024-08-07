@@ -1,0 +1,126 @@
+---
+import { getCollection } from 'astro:content';
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+
+interface Props {
+  featured_stories: {
+    main_feature: string;
+    feature_list: Array<string>;
+  };
+}
+
+const allPosts = await getCollection('news');
+const { featured_stories } = Astro.props;
+const images = import.meta.glob<{ default: ImageMetadata }>(
+  '/src/assets/**/*.{jpeg,jpg,png,gif}',
+  { eager: true }
+);
+---
+
+<section>
+  <div class="featured-container">
+    {
+      allPosts.map((post) => {
+        const featuredPostSlug = featured_stories.main_feature
+          .split('src/content/news/')[1]
+          .split('.mdx')[0];
+        const featuredPostURL = `/news/${featuredPostSlug}/`;
+        if (featuredPostSlug === post.slug) {
+          const date = new Date(post.data.date);
+          const dateTimeFormatter = new Intl.DateTimeFormat('en-US', {
+            dateStyle: 'long',
+            timeZone: 'America/Chicago',
+          });
+          const formattedDate = dateTimeFormatter.format(date);
+
+          const imageSrc =
+            images[post.data.thumb_image_path]?.default ??
+            post.data.thumb_image_path;
+          return (
+            <div class="w-[65%]">
+              <a href={featuredPostSlug}>
+                <Image
+                  class="w-full aspect-video object-cover"
+                  alt={post.data.thumb_image_alt}
+                  widths={[320, 500, 640, 960, 1280]}
+                  sizes={`(max-width: 320px) 320px, (max-width: 500px) 500px, (max-width: 640px) 640px, (max-width: 960px) 960px, 1280px`}
+                  src={imageSrc}
+                />
+              </a>
+              <p class="feature-story-tag pt-1">Feature Story</p>
+              <a href={featuredPostSlug}>
+                <h3 class="py-2">{post.data.title}</h3>
+              </a>
+              <p>{post.data.description}</p>
+              <p>{formattedDate}</p>
+            </div>
+          );
+        }
+      })
+    }
+    <div class="flex flex-col gap-3 w-[35%]">
+      {
+        featured_stories.feature_list?.map((featuredPost) => {
+          const featuredPostSlug = featuredPost
+            .split('src/content/news/')[1]
+            .split('.mdx')[0];
+          const featuredPostURL = `/news/${featuredPostSlug}/`;
+          return allPosts.map((post) => {
+            if (post.slug === featuredPostSlug) {
+              const date = new Date(post.data.date);
+              const dateTimeFormatter = new Intl.DateTimeFormat('en-US', {
+                dateStyle: 'long',
+                timeZone: 'America/Chicago',
+              });
+              const formattedDate = dateTimeFormatter.format(date);
+
+              const imageSrc =
+                images[post.data.thumb_image_path]?.default ??
+                post.data.thumb_image_path;
+              return (
+                <div class="">
+                  <a href={featuredPostURL}>
+                    <Image
+                      class="w-full aspect-video object-cover"
+                      alt={post.data.thumb_image_alt}
+                      widths={[320, 500, 640]}
+                      sizes={`(max-width: 320px) 320px, (max-width: 500px) 500px, 640px`}
+                      src={imageSrc}
+                    />
+                  </a>
+                  <p class="feature-story-tag py-1">Feature Story</p>
+                  <div class="">
+                    <a href={featuredPostURL}>
+                      <h3 class="pb-1">{post.data.title}</h3>
+                    </a>
+                    <p>{formattedDate}</p>
+                  </div>
+                </div>
+              );
+            }
+          });
+        })
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .featured-container {
+    padding-block: 48px;
+    display: flex;
+    gap: 3rem;
+  }
+
+  h3 {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #3a3a3a;
+  }
+
+  .feature-story-tag {
+    color: #aa1010;
+    font-weight: bold;
+  }
+</style>

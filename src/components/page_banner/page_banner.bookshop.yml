@@ -1,0 +1,63 @@
+# Metadata about this component, to be used in the CMS
+spec:
+  structures:
+    - content_blocks
+  label: Page Banner
+  description: Full screen banner
+  icon: "ad_units"
+  tags:
+    - Text
+    - Links
+    - Banner
+  picker_preview:
+    gallery:
+      image: /images/component-screenshots/banner.png
+
+# Defines the structure of this component, as well as the default values
+blueprint:
+  text:
+  text_color:
+  background_color:
+
+# Overrides any fields in the blueprint when viewing this component in the component browser
+preview:
+
+# Any extra CloudCannon inputs configuration to apply to the blueprint
+_inputs:
+  text:
+    type: markdown
+    options:
+      bold: true
+      center: align-center
+      copyformatting: true
+      format: p
+      horizontalrule: true
+      italic: true
+      justify: align-justify
+      left: align-left
+      link: true
+      redo: true
+      removeformat: true
+      right: align-right
+      strike: true
+      styles: /css/editor.css
+      subscript: true
+      superscript: true
+      underline: true
+      undo: true
+  background_color:
+    type: select
+    options:
+      values: data.colors
+      value_key: value
+      preview:
+        text:
+          - key: name
+  text_color:
+    type: select
+    options:
+      values: data.colors
+      value_key: value
+      preview:
+        text:
+          - key: name
