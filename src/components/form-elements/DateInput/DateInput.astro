@@ -1,0 +1,101 @@
+---
+import "./date-input.scss";
+import ErrorMessage from "../ErrorMessage/ErrorMessage.astro";
+import HelperText from "../HelperText/HelperText.astro";
+import Icon from "src/components/utility/icon";
+
+const block = Astro.props;
+const dateNow = String(new Date("%Y-%m-%d"));
+---
+
+{
+  block.required && block.helper_text ? (
+    <div class="c-date-input">
+      <label class="c-date-input__label" for={block.id}>
+        {block.label} *
+      </label>
+      <input
+        class={`c-date-input__input ${block.min_today ? "c-date-input__input--min-today" : ""} ${block.max_today ? "c-date-input__input--max-today" : ""}`}
+        type="date"
+        id={block.id}
+        name={block.label}
+        min={block.min_today ? dateNow : String(new Date(block.min))}
+        max={block.max_today ? dateNow : String(new Date(block.max))}
+        required
+        aria-describedby="{{ id }}--helper"
+      />
+
+      {/* TODO: Add 2 icons */}
+
+      <HelperText id={block.id} helper_text={block.helper_text} />
+      <ErrorMessage id={block.id} />
+    </div>
+  ) : block.required ? (
+    <div class="c-date-input">
+      <label class="c-date-input__label" for={block.id}>
+        {block.label} *
+      </label>
+      <input
+        class={`c-date-input__input ${block.min_today ? "c-date-input__input--min-today" : ""} ${block.max_today ? "c-date-input__input--max-today" : ""}`}
+        type="date"
+        id={block.id}
+        name={block.label}
+        min={block.min_today ? dateNow : String(new Date(block.min))}
+        max={block.max_today ? dateNow : String(new Date(block.max))}
+        required
+      />
+
+      {/* TODO: Add 2 icons */}
+
+      <ErrorMessage id={block.id} />
+    </div>
+  ) : block.helper_text ? (
+    <div class="c-date-input">
+      <label class="c-date-input__label" for={block.id}>
+        {block.label}
+      </label>
+      <input
+        class={`c-date-input__input ${block.min_today ? "c-date-input__input--min-today" : ""} ${block.max_today ? "c-date-input__input--max-today" : ""}`}
+        type="date"
+        id={block.id}
+        name={block.label}
+        min={block.min_today ? dateNow : String(new Date(block.min))}
+        max={block.max_today ? dateNow : String(new Date(block.max))}
+        aria-describedby="{{ id }}--helper"
+      />
+
+      <div class="c-date-input__icon" style="width: 1rem;">
+        <Icon icon="CalendarDays" />
+      </div>
+      <div class="c-date-input__dropdown-arrow" style="width: 1rem;">
+        <Icon icon="ChevronDown" />
+      </div>
+
+      <HelperText id={block.id} helper_text={block.helper_text} />
+      <ErrorMessage id={block.id} />
+    </div>
+  ) : (
+    <div class="c-date-input">
+      <label class="c-date-input__label" for={block.id}>
+        {block.label}
+      </label>
+      <input
+        class={`c-date-input__input ${block.min_today ? "c-date-input__input--min-today" : ""} ${block.max_today ? "c-date-input__input--max-today" : ""}`}
+        type="date"
+        id={block.id}
+        name={block.label}
+        min={block.min_today ? dateNow : String(new Date(block.min))}
+        max={block.max_today ? dateNow : String(new Date(block.max))}
+      />
+
+      <div class="c-date-input__icon" style="width: 1rem;">
+        <Icon icon="CalendarDays" />
+      </div>
+      <div class="c-date-input__dropdown-arrow" style="width: 1rem;">
+        <Icon icon="ChevronDown" />
+      </div>
+
+      <ErrorMessage id={block.id} />
+    </div>
+  )
+}

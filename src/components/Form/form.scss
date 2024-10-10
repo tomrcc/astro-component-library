@@ -1,0 +1,23 @@
+.c-form {
+  display: grid;
+  row-gap: 2rem;
+  align-items: flex-start;
+  text-align: left;
+
+  &__form {
+    width: 100%;
+    // text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    &__submit-button {
+      text-align: center;
+    }
+  }
+
+  &--content-align-center {
+    place-items: center;
+    text-align: center;
+  }
+}

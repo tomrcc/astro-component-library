@@ -1,0 +1,77 @@
+---
+import "./phone-input.scss";
+import ErrorMessage from "../ErrorMessage/ErrorMessage.astro";
+import HelperText from "../HelperText/HelperText.astro";
+
+const block = Astro.props;
+---
+
+{
+  block.required && block.helper_text ? (
+    <div class="c-phone-input">
+      <label class="c-phone-input__label" for={block.id}>
+        {block.label} *
+      </label>
+      <input
+        class="c-phone-input__input"
+        type="tel"
+        id={block.id}
+        name={block.label}
+        placeholder={block.placeholder}
+        required
+        aria-describedby={`${block.id}--helper`}
+      />
+
+      <HelperText id={block.id} helper_text={block.helper_text} />
+      <ErrorMessage id={block.id} />
+    </div>
+  ) : block.required ? (
+    <div class="c-phone-input">
+      <label class="c-phone-input__label" for={block.id}>
+        {block.label} *
+      </label>
+      <input
+        class="c-phone-input__input"
+        type="tel"
+        id={block.id}
+        name={block.label}
+        placeholder={block.placeholder}
+        required
+      />
+
+      <ErrorMessage id={block.id} />
+    </div>
+  ) : block.helper_text ? (
+    <div class="c-phone-input">
+      <label class="c-phone-input__label" for={block.id}>
+        {block.label}
+      </label>
+      <input
+        class="c-phone-input__input"
+        type="tel"
+        id={block.id}
+        name={block.label}
+        placeholder={block.placeholder}
+        aria-describedby={`${block.id}--helper`}
+      />
+
+      <HelperText id={block.id} helper_text={block.helper_text} />
+      <ErrorMessage id={block.id} />
+    </div>
+  ) : (
+    <div class="c-phone-input">
+      <label class="c-phone-input__label" for={block.id}>
+        {block.label}
+      </label>
+      <input
+        class="c-phone-input__input"
+        type="tel"
+        id={block.id}
+        name={block.label}
+        placeholder={block.placeholder}
+      />
+
+      <ErrorMessage id={block.id} />
+    </div>
+  )
+}

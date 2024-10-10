@@ -1,0 +1,37 @@
+.c-checkbox-input {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+
+  &__input {
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    &:focus {
+      border: 2px solid var(--interaction-color, #2566f2);
+      outline: none;
+    }
+
+    &:focus:checked:after {
+      color: var(--interaction-color, #2566f2);
+    }
+
+    &:checked:after {
+      content: "✔";
+      position: absolute;
+      font-size: var(--paragraph-small);
+      line-height: var(--paragraph-small);
+    }
+  }
+
+  &__label {
+    cursor: pointer;
+  }
+}

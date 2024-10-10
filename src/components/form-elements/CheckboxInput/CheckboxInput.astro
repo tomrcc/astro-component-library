@@ -1,0 +1,65 @@
+---
+import "./checkbox-input.scss";
+
+const block = Astro.props;
+---
+
+{
+  block.checked && block.required ? (
+    <div class="c-checkbox-input">
+      <input
+        class="c-checkbox-input__input"
+        type="checkbox"
+        id={block.id}
+        name={block.group_name}
+        value={block.label}
+        checked
+        required
+      />
+      <label class="c-checkbox-input__label" for={block.id}>
+        {block.label} *
+      </label>
+    </div>
+  ) : block.required ? (
+    <div class="c-checkbox-input">
+      <input
+        class="c-checkbox-input__input"
+        type="checkbox"
+        id={block.id}
+        name={block.group_name}
+        value={block.label}
+        required
+      />
+      <label class="c-checkbox-input__label" for={block.id}>
+        {block.label} *
+      </label>
+    </div>
+  ) : block.checked ? (
+    <div class="c-checkbox-input">
+      <input
+        class="c-checkbox-input__input"
+        type="checkbox"
+        id={block.id}
+        name={block.group_name}
+        value={block.label}
+        checked
+      />
+      <label class="c-checkbox-input__label" for={block.id}>
+        {block.label}
+      </label>
+    </div>
+  ) : (
+    <div class="c-checkbox-input">
+      <input
+        class="c-checkbox-input__input"
+        type="checkbox"
+        id={block.id}
+        name={block.group_name}
+        value={block.label}
+      />
+      <label class="c-checkbox-input__label" for={block.id}>
+        {block.label}
+      </label>
+    </div>
+  )
+}

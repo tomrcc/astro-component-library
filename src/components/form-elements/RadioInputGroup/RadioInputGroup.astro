@@ -1,0 +1,138 @@
+---
+import "./radio-button-group.scss";
+import ErrorMessage from "../ErrorMessage/ErrorMessage.astro";
+import HelperText from "../HelperText/HelperText.astro";
+import RadioInput from "../RadioInput/RadioInput.astro";
+
+const block = Astro.props;
+---
+
+{
+  block.helper_text && block.required ? (
+    <div class="c-radio-button-group">
+      <fieldset
+        class="c-radio-button-group__group"
+        aria-describedby={`${block.id}--helper`}>
+        {block.label && block.label != "" ? (
+          <legend class="c-radio-button-group__group__label">
+            {block.label} *
+          </legend>
+        ) : (
+          ""
+        )}
+        <div
+          class={`c-radio-button-group__group__inputs c-radio-button-group__group__inputs--arrangement-${block.arrangement}`}>
+          {block.radio_buttons.length > 0
+            ? block.radio_buttons.map((radio_button: any) => {
+                const group_name = block.label + "-" + block.id;
+                return (
+                  <RadioInput
+                    {...radio_button}
+                    required={block.required}
+                    group_name={group_name}
+                    id={block.radio_id}
+                  />
+                );
+              })
+            : ""}
+        </div>
+      </fieldset>
+
+      <HelperText id={block.id} helper_text={block.helper_text} />
+      <ErrorMessage id={block.id} />
+    </div>
+  ) : block.required ? (
+    <div class="c-radio-button-group">
+      <fieldset class="c-radio-button-group__group">
+        {block.label && block.label != "" ? (
+          <legend class="c-radio-button-group__group__label">
+            {block.label} *
+          </legend>
+        ) : (
+          ""
+        )}
+        <div
+          class={`c-radio-button-group__group__inputs c-radio-button-group__group__inputs--arrangement-${block.arrangement}`}>
+          {block.radio_buttons.length > 0
+            ? block.radio_buttons.map((radio_button: any) => {
+                const group_name = block.label + "-" + block.id;
+                return (
+                  <RadioInput
+                    {...radio_button}
+                    required={block.required}
+                    group_name={group_name}
+                    id={block.radio_id}
+                  />
+                );
+              })
+            : ""}
+        </div>
+      </fieldset>
+
+      <ErrorMessage id={block.id} />
+    </div>
+  ) : block.helper_text ? (
+    <div class="c-radio-button-group">
+      <fieldset
+        class="c-radio-button-group__group"
+        aria-describedby={`${block.id}--helper`}>
+        {block.label && block.label != "" ? (
+          <legend class="c-radio-button-group__group__label">
+            {block.label}
+          </legend>
+        ) : (
+          ""
+        )}
+        <div
+          class={`c-radio-button-group__group__inputs c-radio-button-group__group__inputs--arrangement-${block.arrangement}`}>
+          {block.radio_buttons.length > 0
+            ? block.radio_buttons.map((radio_button: any) => {
+                const group_name = block.label + "-" + block.id;
+                return (
+                  <RadioInput
+                    {...radio_button}
+                    required={block.required}
+                    group_name={group_name}
+                    id={block.radio_id}
+                  />
+                );
+              })
+            : ""}
+        </div>
+      </fieldset>
+
+      <HelperText id={block.id} helper_text={block.helper_text} />
+      <ErrorMessage id={block.id} />
+    </div>
+  ) : (
+    <div class="c-radio-button-group">
+      <fieldset class="c-radio-button-group__group">
+        {block.label && block.label != "" ? (
+          <legend class="c-radio-button-group__group__label">
+            {block.label}
+          </legend>
+        ) : (
+          ""
+        )}
+        <div
+          class={`c-radio-button-group__group__inputs c-radio-button-group__group__inputs--arrangement-${block.arrangement}`}>
+          {block.radio_buttons.length > 0
+            ? block.radio_buttons.map((radio_button: any) => {
+                const group_name = block.label + "-" + block.id;
+                return (
+                  <RadioInput
+                    {...radio_button}
+                    required={block.required}
+                    group_name={group_name}
+                    id={block.radio_id}
+                  />
+                );
+              })
+            : ""}
+        </div>
+      </fieldset>
+
+      <ErrorMessage id={block.id} />
+    </div>
+  )
+}

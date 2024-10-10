@@ -1,0 +1,64 @@
+---
+import "./radio-input.scss";
+const block = Astro.props;
+---
+
+{
+  block.required && block.checked ? (
+    <div class="c-radio-input">
+      <input
+        class="c-radio-input__input"
+        type="radio"
+        id={block.id}
+        name={block.group_name}
+        value={block.label}
+        checked
+        required
+      />
+      <label class="c-radio-input__label" for={block.id}>
+        {block.label}
+      </label>
+    </div>
+  ) : block.required ? (
+    <div class="c-radio-input">
+      <input
+        class="c-radio-input__input"
+        type="radio"
+        id={block.id}
+        name={block.group_name}
+        value={block.label}
+        required
+      />
+      <label class="c-radio-input__label" for={block.id}>
+        {block.label}
+      </label>
+    </div>
+  ) : block.checked ? (
+    <div class="c-radio-input">
+      <input
+        class="c-radio-input__input"
+        type="radio"
+        id={block.id}
+        name={block.group_name}
+        value={block.label}
+        checked
+      />
+      <label class="c-radio-input__label" for={block.id}>
+        {block.label}
+      </label>
+    </div>
+  ) : (
+    <div class="c-radio-input">
+      <input
+        class="c-radio-input__input"
+        type="radio"
+        id={block.id}
+        name={block.group_name}
+        value={block.label}
+      />
+      <label class="c-radio-input__label" for={block.id}>
+        {block.label}
+      </label>
+    </div>
+  )
+}

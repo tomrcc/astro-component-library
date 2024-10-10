@@ -1,0 +1,54 @@
+---
+import Icon from "src/components/utility/icon";
+import ErrorMessage from "../ErrorMessage/ErrorMessage.astro";
+import HelperText from "../HelperText/HelperText.astro";
+import "./time-input.scss";
+const block = Astro.props;
+---
+
+{
+  block.helper_text ? (
+    <div class="c-time-input">
+      <label class="c-time-input__label" for={block.id}>
+        {block.label}
+      </label>
+      <input
+        class="c-time-input__input"
+        type="time"
+        id={block.id}
+        name={block.label}
+        value={block.placeholder}
+        min={block.min ? block.min : ""}
+        max={block.max ? block.max : ""}
+        aria-describedby={`${block.id}--helper`}
+      />
+
+      <div class="c-time-input__icon">
+        <Icon icon="Clock" />
+      </div>
+      <div class="c-time-input__dropdown-arrow">
+        <Icon icon="ChevronDown" />
+      </div>
+      <HelperText id={block.id} helper_text={block.helper_text} />
+
+      <ErrorMessage id={block.id} />
+    </div>
+  ) : (
+    <div class="c-time-input">
+      <label class="c-time-input__label" for={block.id}>
+        {block.label}
+      </label>
+      <input
+        class="c-time-input__input"
+        type="time"
+        id={block.id}
+        name={block.label}
+        value={block.placeholder}
+        min={block.min ? block.min : ""}
+        max={block.max ? block.max : ""}
+      />
+
+      <ErrorMessage id={block.id} />
+    </div>
+  )
+}

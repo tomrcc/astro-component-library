@@ -1,0 +1,10 @@
+---
+import "./section-break.scss";
+const block = Astro.props;
+---
+
+<div class="c-form-section-break">
+  <hr
+    class={`c-form-section-break__divider ${block.line ? "c-form-section-break__divider--line" : ""}`}
+  />
+</div>

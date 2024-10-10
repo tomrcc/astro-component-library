@@ -1,0 +1,18 @@
+---
+import Icon from "src/components/utility/icon";
+
+const block = Astro.props;
+---
+
+<div class="c-helper-text flex gap-2 mt-2">
+  <!-- TODO: Add helper text icon back -->
+  <div style="width: 1rem; display: flex; align-items: center;">
+    <Icon icon="CircleInfo" />
+  </div>
+  <p
+    class="c-helper-text__helper__text"
+    id={`${block.id}--helper`}
+    role="tooltip">
+    {block.helper_text}
+  </p>
+</div>

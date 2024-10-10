@@ -1,0 +1,76 @@
+---
+import ErrorMessage from "../ErrorMessage/ErrorMessage.astro";
+import HelperText from "../HelperText/HelperText.astro";
+import "./text-area-input.scss";
+const block = Astro.props;
+---
+
+{
+  block.required && block.helper_text ? (
+    <div class="c-text-area-input">
+      <label class="c-text-area-input__label" for={block.id}>
+        {block.label} *
+      </label>
+      <textarea
+        class="c-text-area-input__input"
+        id={block.id}
+        name={block.label}
+        placeholder={block.placeholder}
+        required
+        rows={block.rows}
+        aria-describedby={`${block.id}--helper`}
+      />
+
+      <HelperText id={block.id} helper_text={block.helper_text} />
+      <ErrorMessage id={block.id} />
+    </div>
+  ) : block.required ? (
+    <div class="c-text-area-input">
+      <label class="c-text-area-input__label" for={block.id}>
+        {block.label} *
+      </label>
+      <textarea
+        class="c-text-area-input__input"
+        id={block.id}
+        name={block.label}
+        placeholder={block.placeholder}
+        required
+        rows={block.rows}
+      />
+
+      <ErrorMessage id={block.id} />
+    </div>
+  ) : block.helper_text ? (
+    <div class="c-text-area-input">
+      <label class="c-text-area-input__label" for={block.id}>
+        {block.label}
+      </label>
+      <textarea
+        class="c-text-area-input__input"
+        id={block.id}
+        name={block.label}
+        placeholder={block.placeholder}
+        rows={block.rows}
+        aria-describedby={`${block.id}--helper`}
+      />
+
+      <HelperText id={block.id} helper_text={block.helper_text} />
+      <ErrorMessage id={block.id} />
+    </div>
+  ) : (
+    <div class="c-text-area-input">
+      <label class="c-text-area-input__label" for={block.id}>
+        {block.label}
+      </label>
+      <textarea
+        class="c-text-area-input__input"
+        id={block.id}
+        name={block.label}
+        placeholder={block.placeholder}
+        rows={block.rows}
+      />
+
+      <ErrorMessage id={block.id} />
+    </div>
+  )
+}

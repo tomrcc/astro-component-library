@@ -1,0 +1,78 @@
+---
+import "./text-input.scss";
+import HelperText from "../HelperText/HelperText.astro";
+import ErrorMessage from "../ErrorMessage/ErrorMessage.astro";
+const block = Astro.props;
+---
+
+{
+  block.required && block.helper_text ? (
+    <div class="c-text-input">
+      <label class="c-text-input__label" for={block.id}>
+        {block.label} *
+      </label>
+      <input
+        class="c-text-input__input"
+        type="text"
+        id={block.id}
+        name={block.label}
+        placeholder={block.placeholder}
+        required
+        aria-describedby={`${block.id}--helper`}
+      />
+
+      <HelperText id={block.id} helper_text={block.helper_text} />
+
+      <ErrorMessage id={block.id} />
+    </div>
+  ) : block.required ? (
+    <div class="c-text-input">
+      <label class="c-text-input__label" for={block.id}>
+        {block.label} *
+      </label>
+      <input
+        class="c-text-input__input"
+        type="text"
+        id={block.id}
+        name={block.label}
+        placeholder={block.placeholder}
+        required
+      />
+
+      <ErrorMessage id={block.id} />
+    </div>
+  ) : block.helper_text ? (
+    <div class="c-text-input">
+      <label class="c-text-input__label" for={block.id}>
+        {block.label}
+      </label>
+      <input
+        class="c-text-input__input"
+        type="text"
+        id={block.id}
+        name={block.label}
+        placeholder={block.placeholder}
+        aria-describedby={`${block.id}--helper`}
+      />
+
+      <HelperText id={block.id} helper_text={block.helper_text} />
+
+      <ErrorMessage id={block.id} />
+    </div>
+  ) : (
+    <div class="c-text-input">
+      <label class="c-text-input__label" for={block.id}>
+        {block.label}
+      </label>
+      <input
+        class="c-text-input__input"
+        type="text"
+        id={block.id}
+        name={block.label}
+        placeholder={block.placeholder}
+      />
+
+      <ErrorMessage id={block.id} />
+    </div>
+  )
+}

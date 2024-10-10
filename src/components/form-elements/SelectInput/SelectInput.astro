@@ -1,0 +1,44 @@
+---
+import Icon from "src/components/utility/icon";
+import HelperText from "../HelperText/HelperText.astro";
+import "./select-input.scss";
+const block = Astro.props;
+---
+
+{
+  block.helper_text ? (
+    <div class="c-select-input">
+      <label class="c-select-input__label" for={block.id}>
+        {block.label}
+      </label>
+      <select
+        class="c-select-input__input"
+        name={block.label}
+        id={block.id}
+        aria-describedby={`${block.id}--helper`}>
+        {block.options.map((option: any) => {
+          return <option value={option.name}>{option.name}</option>;
+        })}
+      </select>
+      <div class="c-select-input__dropdown-arrow">
+        <Icon icon="ChevronDown" />
+      </div>
+
+      <HelperText id={block.id} helper_text={block.helper_text} />
+    </div>
+  ) : (
+    <div class="c-select-input">
+      <label class="c-select-input__label" for={block.id}>
+        {block.label}
+      </label>
+      <select class="c-select-input__input" name={block.label} id={block.id}>
+        {block.options.map((option: any) => {
+          return <option value={option.name}>{option.name}</option>;
+        })}
+      </select>
+      <div class="c-select-input__dropdown-arrow">
+        <Icon icon="ChevronDown" />
+      </div>
+    </div>
+  )
+}

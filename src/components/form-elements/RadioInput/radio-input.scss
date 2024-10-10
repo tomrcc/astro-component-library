@@ -1,0 +1,36 @@
+.c-radio-input {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+
+  &__input {
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:focus {
+      border: 2px solid var(--interaction-color, #2566f2);
+      outline: none;
+    }
+
+    &:focus:checked:after {
+      background-color: var(--interaction-color, #2566f2);
+    }
+
+    &:checked:after {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+  }
+
+  &__label {
+    cursor: pointer;
+  }
+}

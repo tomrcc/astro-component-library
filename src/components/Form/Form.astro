@@ -1,0 +1,332 @@
+---
+import "./form.scss";
+import Markdown from "../utility/markdown.astro";
+
+const formElements = import.meta.glob(
+  "/src/components/form-elements/**/*.astro",
+  {
+    eager: true,
+  }
+);
+const { content, styles } = Astro.props;
+const formPlaceholderTextColor = styles.placeholder_text_color;
+const formTextColor = styles.text_color;
+---
+
+<section
+  style={`background-color: ${styles.background_color}; color: ${styles.text_color};`}
+  id={content.id}
+  class={`c-form c-form--content-align-${styles.content_alignment} component`}>
+  <div class="form-container">
+    {
+      content.heading || content.description ? (
+        <div class="component__heading c-form__heading">
+          {content.heading ? <h2 class="text-5xl">{content.heading}</h2> : ""}
+          {content.description ? (
+            <Markdown content={content.description} />
+          ) : (
+            ""
+          )}
+        </div>
+      ) : (
+        ""
+      )
+    }
+    <form
+      class="c-form-form"
+      id="contact-form"
+      action={content.success_page}
+      method="post"
+      novalidate>
+      {
+        content.form.form_elements.length > 0 ? (
+          <div class="flex flex-col gap-8">
+            {content.form.form_elements?.map((formEl) => {
+              const name = formEl._bookshop_name.split("/").reverse()[0];
+              const filePath = `/src/components/form-elements/${name}/${name}.astro`;
+              const Component = (formElements[filePath] as any)?.default;
+              return <Component {...formEl} />;
+            })}
+          </div>
+        ) : (
+          ""
+        )
+      }
+
+      <input type="text" name="_gotcha" style="display: none;" />
+      {
+        content.form.inbox_key ? (
+          <input
+            type="hidden"
+            name="inbox_key"
+            value={content.form.inbox_key}
+          />
+        ) : (
+          ""
+        )
+      }
+      {
+        content.form.subject ? (
+          <input type="hidden" name="_subject" value={content.form.subject} />
+        ) : (
+          ""
+        )
+      }
+
+      <button
+        id="form-submit-button"
+        class="c-form__submit-button"
+        type="submit">
+        Submit
+      </button>
+    </form>
+  </div>
+</section>
+
+<script is:inline>
+  let typingTimer;
+  const doneTypingInterval = 1000;
+  let myForm = document.querySelector(".c-form-form");
+  myForm.addEventListener("submit", function () {
+    validateFormSubmit(event, myForm);
+  });
+
+  const checkBoxGroupInput = document.querySelector(".c-checkbox-group__group");
+  checkBoxGroupInput.addEventListener("click", function () {
+    validateInputGroup(checkBoxGroupInput);
+  });
+
+  const emailInput = document.querySelector(".c-email-input__input");
+  emailInput.addEventListener("blur", function () {
+    validateInput(emailInput);
+  });
+  emailInput.addEventListener("input", function () {
+    validateInputTyping(emailInput);
+  });
+
+  const dateInput = document.querySelector(".c-date-input__input");
+  dateInput.addEventListener("blur", function () {
+    validateInput(dateInput);
+  });
+  dateInput.addEventListener("focus", function () {
+    setMinMaxDateToday(dateInput);
+  });
+
+  const phoneInput = document.querySelector(".c-phone-input__input");
+  phoneInput.addEventListener("blur", function () {
+    validateInput(phoneInput);
+  });
+  phoneInput.addEventListener("input", function () {
+    validateInputTyping(phoneInput);
+  });
+
+  const radioInputGroup = document.querySelector(
+    ".c-radio-button-group__group"
+  );
+  radioInputGroup.addEventListener("click", function () {
+    validateInputGroup(radioInputGroup);
+  });
+
+  const textAreaInput = document.querySelector(".c-text-area-input__input");
+  textAreaInput.addEventListener("blur", function () {
+    validateInput(textAreaInput);
+  });
+  textAreaInput.addEventListener("input", function () {
+    validateInputTyping(textAreaInput);
+  });
+
+  const textInput = document.querySelector(".c-text-input__input");
+  textInput.addEventListener("blur", function () {
+    validateInput(textInput);
+  });
+  textInput.addEventListener("input", function () {
+    validateInputTyping(textInput);
+  });
+
+  const timeInput = document.querySelector(".c-time-input__input");
+  timeInput.addEventListener("blur", function () {
+    validateInput(timeInput);
+  });
+  timeInput.addEventListener("input", function () {
+    validateInputTyping(timeInput);
+  });
+
+  function validateInput(input) {
+    const errorContainer = input.parentElement.querySelector(".error");
+    const errorText = errorContainer.querySelector(".error__text");
+
+    if (input.checkValidity()) {
+      errorContainer.style.display = "none";
+      input.removeAttribute("aria-invalid");
+      input.removeAttribute("aria-errormessage");
+    } else {
+      errorContainer.style.display = "flex";
+      errorText.textContent = input.validationMessage;
+      input.setAttribute("aria-invalid", true);
+      input.setAttribute("aria-errormessage", errorText.id);
+    }
+  }
+
+  function validateInputGroup(input) {
+    const errorContainer = input.parentElement.querySelector(".error");
+
+    let invalidElements = input.querySelectorAll(":invalid");
+    invalidElements = [...invalidElements];
+
+    if (invalidElements.length == 0) {
+      input.removeAttribute("aria-invalid");
+      input.removeAttribute("aria-errormessage");
+      errorContainer.style.display = "none";
+    }
+  }
+
+  function validateInputTyping(input) {
+    // Wait for a user to stop typing and display an error message if their input is invalid
+    clearTimeout(typingTimer);
+
+    typingTimer = setTimeout(function () {
+      validateInput(input);
+    }, doneTypingInterval);
+  }
+
+  function validateFormSubmit(event, element) {
+    let invalidElements = element.querySelectorAll(":invalid");
+
+    invalidElements = [...invalidElements];
+    invalidElements = invalidElements.filter(
+      (input) => input.type != "radio" && input.type != "checkbox"
+    );
+
+    for (index in invalidElements) {
+      let item = invalidElements[index];
+      let errorContainer = item.parentElement.querySelector(".error");
+      let errorText = errorContainer.querySelector(".error__text");
+      if (item.validationMessage) {
+        errorContainer.style.display = "flex";
+        item.setAttribute("aria-invalid", true);
+        item.setAttribute("aria-errormessage", errorText.id);
+        errorText.textContent = item.validationMessage;
+      } else if (item.querySelector(":invalid")) {
+        errorContainer.style.display = "flex";
+        item.setAttribute("aria-invalid", true);
+        item.setAttribute("aria-errormessage", errorText.id);
+        errorText.textContent =
+          item.querySelector(":invalid").validationMessage;
+      }
+    }
+
+    if (invalidElements.length > 0) {
+      event.preventDefault();
+      invalidElements[0].focus();
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  // If the min or max value of the provided input should be the current date, set the attribute
+  function setMinMaxDateToday(input) {
+    console.log("Running setMinMaxDateToday!");
+    let today = new Date();
+    let dd = today.getDate();
+    let mm = today.getMonth() + 1;
+    let yyyy = today.getFullYear();
+
+    if (dd < 10) {
+      dd = "0" + dd;
+    }
+
+    if (mm < 10) {
+      mm = "0" + mm;
+    }
+
+    today = yyyy + "-" + mm + "-" + dd;
+
+    if (input.classList.contains("c-date-input__input--min-today")) {
+      input.setAttribute("min", today);
+    } else if (input.classList.contains("c-date-input__input--max-today")) {
+      input.setAttribute("max", today);
+    }
+  }
+</script>
+
+<style is:global define:vars={{ formPlaceholderTextColor, formTextColor }}>
+  .c-email-input__input::placeholder,
+  .c-country-select-input__input::placeholder,
+  .c-date-input__input::placeholder,
+  .c-phone-input__input::placeholder,
+  .c-text-area-input__input::placeholder,
+  .c-text-input__input::placeholder,
+  .c-time-input__input::placeholder {
+    opacity: 1;
+    color: var(--formPlaceholderTextColor) !important;
+  }
+
+  .c-checkbox-group,
+  .c-checkbox-input,
+  .c-country-select-input,
+  .c-country-select-input__input,
+  .c-date-input,
+  .c-date-input__input,
+  .c-email-input,
+  .c-email-input__input,
+  .c-helper-text,
+  .c-phone-input,
+  .c-phone-input__input,
+  .c-radio-button-group,
+  .c-radio-input,
+  .c-select-input,
+  .c-select-input__input,
+  .c-text-area-input,
+  .c-text-area-input__input,
+  .c-text-input,
+  .c-text-input__input,
+  .c-time-input,
+  .c-time-input__input,
+  .c-country-select-input__dropdown-arrow {
+    color: var(--formTextColor);
+  }
+
+  .c-checkbox-input__input,
+  .c-checkbox-input:checked:not(:focus),
+  .c-checkbox-input:checked:after,
+  .c-radio-input__input,
+  .c-radio-input__input:checked:not(:focus) {
+    border: 2px solid var(--formTextColor);
+  }
+  .c-radio-input__input:checked:after {
+    background: var(--formTextColor);
+  }
+
+  .c-form-section-break__divider--line {
+    border-bottom: 1px solid var(--formTextColor);
+  }
+  .c-form__submit-button {
+    border: 1px solid var(--formTextColor);
+  }
+</style>
+
+<style>
+  .form-container {
+    max-width: var(--pageContainer);
+    margin: 0 auto;
+    padding-inline: var(--pagePadding);
+    padding-block: 48px;
+  }
+  .c-form__submit-button {
+    padding: 8px 64px;
+    margin-top: 32px;
+    letter-spacing: 0.05rch;
+  }
+  .c-form__submit-button:hover {
+    color: #000000;
+    background-color: #ffffff;
+    /* box-shadow: rgba(255, 229, 229, 0.35) 0px 5px 15px; */
+  }
+
+  @media screen and (min-width: 720px) {
+    .form-container {
+      padding-block: 96px;
+    }
+  }
+</style>

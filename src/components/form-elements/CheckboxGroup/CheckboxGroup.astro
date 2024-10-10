@@ -1,0 +1,39 @@
+---
+import "./checkbox-group.scss";
+import CheckboxInput from "../CheckboxInput/CheckboxInput.astro";
+import ErrorMessage from "../ErrorMessage/ErrorMessage.astro";
+import HelperText from "../HelperText/HelperText.astro";
+const block = Astro.props;
+---
+
+<div class="c-checkbox-group">
+  <fieldset
+    class="c-checkbox-group__group"
+    aria-describedby={`${block.id}--helper`}>
+    {
+      block.label && block.label != "" ? (
+        <legend class="c-checkbox-group__group__label">{block.label}</legend>
+      ) : (
+        ""
+      )
+    }
+    <div
+      class={`c-checkbox-group__group__inputs c-checkbox-group__group__inputs--arrangement-${block.arrangement}`}>
+      {
+        block.checkboxes.map((checkbox: any) => {
+          const group_name = `${block.label}-${block.id}`;
+          return <CheckboxInput {...checkbox} group_name={group_name} />;
+        })
+      }
+    </div>
+  </fieldset>
+  {
+    block.helper_text ? (
+      <HelperText id={block.id} helper_text={block.helper_text} />
+    ) : (
+      ""
+    )
+  }
+
+  <ErrorMessage id={block.id} />
+</div>

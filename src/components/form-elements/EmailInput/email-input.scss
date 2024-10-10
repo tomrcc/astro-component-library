@@ -1,0 +1,22 @@
+.c-email-input {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+
+  &__label {
+    font-size: var(--label);
+    line-height: var(--line-height);
+  }
+
+  &__input {
+    padding: 12px 16px;
+    border-radius: 4px;
+    border: 2px solid;
+    background-color: transparent;
+
+    &:focus {
+      border: 2px solid var(--interaction-color, #2566f2);
+      outline: none;
+    }
+  }
+}

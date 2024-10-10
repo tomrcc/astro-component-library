@@ -1,0 +1,14 @@
+---
+import Icon from "src/components/utility/icon";
+import "./error-message.scss";
+const block = Astro.props;
+---
+
+<div class="c-error-message error">
+  <div style="width: 1rem; display: flex; align-items: center;">
+    <Icon icon="CircleXmark" />
+  </div>
+  <p class="c-error-message__error__text error__text" id={`${block.id}--error`}>
+    {block.error_message}
+  </p>
+</div>
